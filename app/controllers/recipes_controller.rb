@@ -15,7 +15,12 @@ class RecipesController < ApplicationController
     if !!@user
       @recipes = Recipe.where(user_id:@user.id)
     else 
-      @recipes = Recipe.all
+      if !!params[:ingredient_name]
+        @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
+        render json: @recipes, status:201
+      else 
+        @recipes = Recipe.all
+      end
     end
   end
 
@@ -68,11 +73,6 @@ class RecipesController < ApplicationController
     @recipe.destroy
     flash[:notice] = "Recipe successfully deleted"
     redirect_to user_path(current_user)
-  end
-
-  def ingredient_search
-    @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
-    render json: @recipes, status:201
   end
   
   private

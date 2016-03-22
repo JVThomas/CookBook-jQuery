@@ -49,7 +49,7 @@
 
     $('#search').on("submit", function(event){
       event.preventDefault();
-      $.get('/search', {ingredient_name:$('#ingredient_name').val()}).done(function(results){
+      $.get('/recipes', {ingredient_name:$('#ingredient_name').val()}).done(function(results){
         var injectText = "";
         if(results["recipes"].length === 0){
           injectText = '<p>No results found</p>';
