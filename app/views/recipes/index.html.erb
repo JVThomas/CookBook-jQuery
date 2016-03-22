@@ -14,9 +14,39 @@
 <div>
   <%@recipes.each do |recipe| %>
     <h3><%=display_index_links(recipe)%></h3>
-    <div id = "#details"></div>
-    <a href="#" id="ingredientsLink" class = "btn">Show Ingredients</a>
-    <a href="#" id="contentLink" class = "btn">Show Instructions</a>
+    <div id = "details-<%=recipe.id%>"></div>
+    <a href="#" class = "btn ingredientsLink" data-id="<%=recipe.id%>">Show Ingredients</a>
+    <a href="#" class = "btn contentLink" data-id="<%=recipe.id%>">Show Instructions</a>
   <%end%>
 </div>
+
+<script type="text/javascript" charset = "utf-8">
+  $(document).ready(function(){
+    
+    $('.ingredientsLink').on("click", function(event){
+      event.preventDefault();
+      var recipeId = $(this).data("id");
+      $.get('/recipes/' +recipeId+ ".json").done(function(response){
+        var injectText = "";
+        response["recipe"]["recipe_ingredients"].forEach(function(details){
+          injectText += "<p><strong>Ingredient:</strong> " + details["ingredient"]["name"]+ " /<strong> Quantity:</strong> " + details["quantity"] + "</p>";
+        });
+        $('#details-'+recipeId).html(injectText);
+      }).fail(function(error){
+        alert(error.statusText);
+      });
+    });
+
+    $('.contentLink').on("click",function(event){
+      event.preventDefault();
+      recipeId = $(this).data("id");
+      $.get('/recipes/' +recipeId+ ".json").done(function(details){
+        $('#details-'+recipeId).html('<p>'+ details["recipe"]["content"]+'</p>');
+      }).fail(function(error){
+        alert(error.statusText);
+      });
+    });
+  
+  });
+</script>
 

@@ -48,7 +48,7 @@
         $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'/edit" class = "btn">Edit Comment</a>');
         $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'" class = "btn" rel="nofollow" data-method="delete">Delete Comment</a>');
       }).fail(function(error){
-        alert("Content must be filled in");
+        alert(error.statusText+ ": Content must be filled in");
       });
     });
   });
