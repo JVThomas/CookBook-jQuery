@@ -17,14 +17,14 @@
   <%end%>
 </div>
 
-<div>
-  <h1>Comments</h1>
+<h1>Comments</h1>
+<div id = "commentsList">
   <% @recipe.comments.each do |comment| %>
     <h3> <%= comment.user_name %> Says: </h3>
     <h4> <%= comment.content %> </h4>
     <%if comment.user == current_user%>
       <%= link_to "Edit Comment", edit_user_comment_path(comment.user, comment), class: "btn"%>
-      <%= link_to "Delete Comment", user_comment_path(comment.user,comment), method: :delete, class: "btn"%>
+      <%= link_to "Delete Comment", user_comment_path(comment.user,comment), method: :delete, class: "btn"%><br>
     <%end%>
   <%end%>
 </div>
@@ -35,4 +35,22 @@
     <%=render 'comments/comment'%>
   <%end%>
 </div>
+
+<script type="text/javascript" charset= "utf-8">
+  $(document).ready(function(){
+    $('#new_comment').on("submit",function(event){
+      event.preventDefault();
+      posted_comment = $(this).serialize();
+      $.post('/comments',posted_comment).done(function(data){
+        var commentUser = data["comment"]["user"]
+        $('#commentsList').append('<h3> ' + commentUser["name"] + " Says: </h3>");
+        $('#commentsList').append('<h4> ' + data["comment"]["content"] + " </h4>");
+        $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'/edit" class = "btn">Edit Comment</a>');
+        $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'" class = "btn" rel="nofollow" data-method="delete">Delete Comment</a>');
+      }).fail(function(error){
+        alert("Content must be filled in");
+      });
+    });
+  });
+</script>
 

@@ -14,6 +14,9 @@
 <div>
   <%@recipes.each do |recipe| %>
     <h3><%=display_index_links(recipe)%></h3>
+    <div id = "#details"></div>
+    <a href="#" id="ingredientsLink" class = "btn">Show Ingredients</a>
+    <a href="#" id="contentLink" class = "btn">Show Instructions</a>
   <%end%>
 </div>
 

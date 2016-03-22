@@ -5,7 +5,10 @@ class CommentsController < ApplicationController
   
   def create
     @comment = current_user.comments.build(comment_params)
-    comment_save(:new)
+    if @comment.valid?
+      @comment.save
+      render json: @comment
+    end
   end
 
   def index

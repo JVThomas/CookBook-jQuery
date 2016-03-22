@@ -42,6 +42,11 @@ class RecipesController < ApplicationController
     if !!@user && @user.id != @recipe.user.id
       flash[:alert] = "Recipe does not belong to specified user"
       home_redirect
+    else
+      respond_to do |format|
+        format.html{render :show}
+        format.json{render json: @recipe, status:201}
+      end
     end
   end
 
