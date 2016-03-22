@@ -51,12 +51,17 @@
       event.preventDefault();
       $.get('/search', {ingredient_name:$('#ingredient_name').val()}).done(function(results){
         var injectText = "";
-        results["recipes"].forEach(function(recipe){
-          injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
-          injectText += '<div id ="details-' + recipe["id"] + '"></div>';
-          injectText += '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>';
-          injectText += '<a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
-        });
+        if(results["recipes"].length === 0){
+          injectText = '<p>No results found</p>';
+        }
+        else{
+          results["recipes"].forEach(function(recipe){
+            injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
+            injectText += '<div id ="details-' + recipe["id"] + '"></div>';
+            injectText += '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>';
+            injectText += '<a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
+          });
+        }
         $('#recipeList').html(injectText);
       });
     });

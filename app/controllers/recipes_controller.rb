@@ -71,13 +71,8 @@ class RecipesController < ApplicationController
   end
 
   def ingredient_search
-    if params[:ingredient_name].blank?
-      flash[:alert] = "Search field empty. Returned to previous page"
-      redirect_to :back
-    else
-      @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
-      render json: @recipes, status:201
-    end
+    @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
+    render json: @recipes, status:201
   end
   
   private
