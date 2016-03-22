@@ -8,7 +8,10 @@
       <%=text_field_tag :ingredient_name, params[:ingredient_name]%>
       <%=submit_tag "Search", name: :search%>
     <%end%>
+    <h3><%= link_to "...or create a new recipe!", new_recipe_path%></h3><br>
   </div>
+<%else%>
+  <h3><%= link_to "Create a new recipe!", new_recipe_path%></h3><br>
 <%end%>
 
 <div id = "recipeList">
@@ -59,10 +62,12 @@
             injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
             injectText += '<div id ="details-' + recipe["id"] + '"></div>';
             injectText += '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>';
-            injectText += '<a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
+            injectText += ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
           });
         }
         $('#recipeList').html(injectText);
+      }).fail(function(error){
+        alert(error.statusText);
       });
     });
   });

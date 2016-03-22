@@ -1,6 +1,7 @@
 <div>
-  <h1><%=@comment.user_name%> says:</h1>
-  <h2><%=@comment.content%></h2>
+  <h2><%= link_to "#{@comment.recipe_name}", recipe_path(@comment.recipe.id)%></h2>
+  <h3><%=@comment.user_name%> says:</h3>
+  <h3><%=@comment.content%></h3>
   <%if @comment.user == current_user%>
     <%= link_to "Edit Comment", edit_user_comment_path(@comment.user, @comment), class: "btn"%>
     <%= link_to "Delete Comment", user_comment_path(@comment.user,@comment), method: :delete, class: "btn"%>
