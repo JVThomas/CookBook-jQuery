@@ -8,7 +8,7 @@
   <h3>Ingredients</h3>
 
   <%@recipe.recipe_ingredients.each do |recipe_ingredient|%>
-      <h3><%=recipe_ingredient.ingredient_name %>: <%=recipe_ingredient.quantity%></h3>
+      <h4><%=recipe_ingredient.ingredient_name %>: <%=recipe_ingredient.quantity%></h4>
   <%end%>
 
   <% if @recipe.user == current_user%>
@@ -48,7 +48,7 @@
         $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'/edit" class = "btn">Edit Comment</a>');
         $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'" class = "btn" rel="nofollow" data-method="delete">Delete Comment</a>');
       }).fail(function(error){
-        alert(error.statusText+ ": Content must be filled in");
+        alert("Content must be filled in");
       });
     });
   });

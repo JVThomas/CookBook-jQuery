@@ -21,7 +21,13 @@ class CommentsController < ApplicationController
 
   def update
     authorize(@comment)
-    comment_save(:edit)
+    @comment.update(comment_params)
+    if @comment.valid?
+      flash[:notice] = "Comment successfully updated"
+      redirect_to recipe_path(@comment.recipe)
+    else
+      render :edit
+    end
   end
 
   def show
@@ -42,19 +48,6 @@ class CommentsController < ApplicationController
   private
     def comment_params
       params.require(:comment).permit(:content, :user_id, :recipe_id)
-    end
-
-    def comment_save(sym)
-      @comment.update(comment_params) if sym == :edit
-      if @comment.valid?
-        @comment.save if sym == :new
-        flash[:notice] = "Comment successfully saved"
-        redirect_to recipe_path(@comment.recipe)
-      else
-        flash[:alert] = "Comment must be filled in" if sym == :new 
-        redirect_to recipe_path(@comment.recipe) if sym == :new
-        render :edit if sym == :edit
-      end
     end
 
     def set_comment

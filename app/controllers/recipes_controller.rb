@@ -12,9 +12,7 @@ class RecipesController < ApplicationController
   end
   
   def index
-    if !!params[:search]
-      ingredient_search
-    elsif !!@user
+    if !!@user
       @recipes = Recipe.where(user_id:@user.id)
     else 
       @recipes = Recipe.all
@@ -71,6 +69,16 @@ class RecipesController < ApplicationController
     flash[:notice] = "Recipe successfully deleted"
     redirect_to user_path(current_user)
   end
+
+  def ingredient_search
+    if params[:ingredient_name].blank?
+      flash[:alert] = "Search field empty. Returned to previous page"
+      redirect_to :back
+    else
+      @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
+      render json: @recipes, status:201
+    end
+  end
   
   private
 
@@ -87,13 +95,5 @@ class RecipesController < ApplicationController
       end
     end
 
-    def ingredient_search
-      if params[:ingredient_name].blank?
-        flash[:alert] = "Search field empty. Returned to previous page"
-        redirect_to :back
-      else
-        @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
-        flash[:notice] = "Search successfully completed. #{@recipes.length} result(s) found"
-      end
-    end
+    
 end

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :recipes
     resources :comments, only:[:index, :show, :edit, :update, :destroy]
   end  
+
+  get '/search', to: 'recipes#ingredient_search'
   
   get '/', to: 'welcome#home', as: :home
   root 'welcome#home'

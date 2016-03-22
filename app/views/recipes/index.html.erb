@@ -3,7 +3,7 @@
 <%if !@user%>
   <div>
     <h2>Want to search all recipes by ingredient? Enter the ingredient name below</h2>
-    <%=form_tag recipes_path, method: :get do%>
+    <%=form_tag recipes_path, method: :get, id: "search" do%>
       <%=label_tag :ingredient_name%>
       <%=text_field_tag :ingredient_name, params[:ingredient_name]%>
       <%=submit_tag "Search", name: :search%>
@@ -11,7 +11,7 @@
   </div>
 <%end%>
 
-<div>
+<div id = "recipeList">
   <%@recipes.each do |recipe| %>
     <h3><%=display_index_links(recipe)%></h3>
     <div id = "details-<%=recipe.id%>"></div>
@@ -23,7 +23,7 @@
 <script type="text/javascript" charset = "utf-8">
   $(document).ready(function(){
     
-    $('.ingredientsLink').on("click", function(event){
+    $('#recipeList').on("click", '.ingredientsLink', function(event){
       event.preventDefault();
       var recipeId = $(this).data("id");
       $.get('/recipes/' +recipeId+ ".json").done(function(response){
@@ -37,7 +37,7 @@
       });
     });
 
-    $('.contentLink').on("click",function(event){
+    $('#recipeList').on("click", '.contentLink',function(event){
       event.preventDefault();
       recipeId = $(this).data("id");
       $.get('/recipes/' +recipeId+ ".json").done(function(details){
@@ -46,7 +46,20 @@
         alert(error.statusText);
       });
     });
-  
+
+    $('#search').on("submit", function(event){
+      event.preventDefault();
+      $.get('/search', {ingredient_name:$('#ingredient_name').val()}).done(function(results){
+        var injectText = "";
+        results["recipes"].forEach(function(recipe){
+          injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
+          injectText += '<div id ="details-' + recipe["id"] + '"></div>';
+          injectText += '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>';
+          injectText += '<a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
+        });
+        $('#recipeList').html(injectText);
+      });
+    });
   });
 </script>
 
