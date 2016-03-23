@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :params_check, only:[:create]
   before_action :set_user, only:[:index, :show]
-  before_action :set_comment, only:[:edit, :show, :destroy, :update]
+  before_action :set_comment, only:[:edit, :show, :update]
   
   def create
     @comment = current_user.comments.build(comment_params)
@@ -38,11 +38,10 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @recipe = @comment.recipe
+    @comment = Comment.find(params[:id])
     authorize(@comment)
     @comment.destroy
-    flash[:notice] = "Comment successfully deleted"
-    redirect_to recipe_path(@recipe)
+    render json: @comment
   end
 
   private

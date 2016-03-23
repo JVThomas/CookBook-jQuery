@@ -12,20 +12,22 @@
   <%end%>
 
   <% if @recipe.user == current_user%>
-    <%= link_to "Edit Recipe", edit_user_recipe_path(current_user,@recipe), class: "btn" if @recipe.user == current_user%>
-    <%= link_to "Delete Recipe", user_recipe_path(current_user, @recipe), method: :delete, class: "btn" if @recipe.user == current_user%>
+    <%= link_to "Edit Recipe", edit_user_recipe_path(current_user,@recipe), class: "btn"%>
+    <%= link_to "Delete Recipe", user_recipe_path(current_user, @recipe), method: :delete, class: "btn"%>
   <%end%>
 </div>
 
 <h1>Comments</h1>
 <div id = "commentsList">
   <% @recipe.comments.each do |comment| %>
+  <div id = "comment-<%=comment.id%>">
     <h3> <%= comment.user_name %> Says: </h3>
     <h4> <%= comment.content %> </h4>
     <%if comment.user == current_user%>
       <%= link_to "Edit Comment", edit_user_comment_path(comment.user, comment), class: "btn"%>
-      <%= link_to "Delete Comment", user_comment_path(comment.user,comment), method: :delete, class: "btn"%><br>
+      <a href = "#" class = "btn deleteLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Delete Comment</a>
     <%end%>
+  </div>
   <%end%>
 </div>
 
@@ -43,14 +45,35 @@
       posted_comment = $(this).serialize();
       $.post('/comments',posted_comment).done(function(data){
         var commentUser = data["comment"]["user"]
-        $('#commentsList').append('<h3> ' + commentUser["name"] + " Says: </h3>");
-        $('#commentsList').append('<h4> ' + data["comment"]["content"] + " </h4>");
-        $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'/edit" class = "btn">Edit Comment</a>');
-        $('#commentsList').append('<a href = "/users/' + commentUser["id"] +'/comments/'+ data["comment"]["id"]+'" class = "btn" rel="nofollow" data-method="delete">Delete Comment</a>');
+        var commentContent = data["comment"]["content"];
+        var commentId = data["comment"]["id"];
+        var injectText = '<div id = "comment-' + commentId + '">';
+        injectText +='<h3> ' + commentUser["name"] + " Says: </h3>";
+        injectText +='<h4> ' + commentContent + " </h4>";
+        injectText +='<a href = "/users/' + commentUser["id"] +'/comments/'+ commentId+'/edit" class = "btn">Edit Comment</a>';
+        injectText +='<a href = "#" class = "btn deleteLink" data-id = "' + commentId + '" data-user-id="' + commentUser["id"] + '">Delete Comment</a></div>';
+        $('#commentsList').append(injectText);
+        $('#commentsList div:last').hide().fadeIn("slow");
       }).fail(function(error){
         alert("Content must be filled in");
       });
     });
+    
+    $('#commentsList').on("click",'.deleteLink',function(event){
+      event.preventDefault();
+      var deleteUrl = '/comments/' + $(this).data("id");
+      var parentDiv = $(this).parent();
+      $.ajax({
+        url: deleteUrl,
+        type: "POST",
+        data:{"_method": "DELETE"}
+      }).done(function(data){
+        $(parentDiv).fadeOut("slow");
+      }).fail(function(error){
+        alert(error.statusText);
+      });
+    });
+
   });
 </script>
 
