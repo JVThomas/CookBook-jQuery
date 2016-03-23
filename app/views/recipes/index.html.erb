@@ -34,7 +34,7 @@
         response["recipe"]["recipe_ingredients"].forEach(function(details){
           injectText += "<p><strong>Ingredient:</strong> " + details["ingredient"]["name"]+ " /<strong> Quantity:</strong> " + details["quantity"] + "</p>";
         });
-        $('#details-'+recipeId).html(injectText);
+        $('#details-'+recipeId).html(injectText).hide().fadeIn("slow");
       }).fail(function(error){
         alert(error.statusText);
       });
@@ -44,7 +44,7 @@
       event.preventDefault();
       recipeId = $(this).data("id");
       $.get('/recipes/' +recipeId+ ".json").done(function(details){
-        $('#details-'+recipeId).html('<p>'+ details["recipe"]["content"]+'</p>');
+        $('#details-'+recipeId).html('<p>'+ details["recipe"]["content"]+'</p>').hide().fadeIn("slow");
       }).fail(function(error){
         alert(error.statusText);
       });
@@ -65,7 +65,7 @@
             injectText += ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
           });
         }
-        $('#recipeList').html(injectText);
+        $('#recipeList').html(injectText).hide().fadeIn("slow");
       }).fail(function(error){
         alert(error.statusText);
       });
