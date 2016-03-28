@@ -26,38 +26,51 @@
 <script type="text/javascript" charset = "utf-8">
   $(document).ready(function(){
     
+    //click event for More Ingredients
     $('#recipeList').on("click", '.ingredientsLink', function(event){
       event.preventDefault();
       var recipeId = $(this).data("id");
+      //get request to .json variant of show for target recipe
       $.get('/recipes/' +recipeId+ ".json").done(function(response){
+        //preparing string for markup
         var injectText = "";
         response["recipe"]["recipe_ingredients"].forEach(function(details){
           injectText += "<p><strong>Ingredient:</strong> " + details["ingredient"]["name"]+ " /<strong> Quantity:</strong> " + details["quantity"] + "</p>";
         });
+
+        //injection of markup, hide container to allow fadein effect
         $('#details-'+recipeId).html(injectText).hide().fadeIn("slow");
       }).fail(function(error){
         alert(error.statusText);
       });
     });
 
+    //click event for Instructions
     $('#recipeList').on("click", '.contentLink',function(event){
       event.preventDefault();
       recipeId = $(this).data("id");
+
+      //same as above get request
       $.get('/recipes/' +recipeId+ ".json").done(function(details){
+        //only have to display content, formatting much more simpler here, otherwise injection/hide/fade same as above
         $('#details-'+recipeId).html('<p>'+ details["recipe"]["content"]+'</p>').hide().fadeIn("slow");
       }).fail(function(error){
         alert(error.statusText);
       });
     });
 
+    //click event to submit recipe search query
     $('#search').on("submit", function(event){
       event.preventDefault();
       $.get('/recipes', {ingredient_name:$('#ingredient_name').val()}).done(function(results){
+
+        //once again preparing string for eventual injection
         var injectText = "";
         if(results["recipes"].length === 0){
           injectText = '<p>No results found</p>';
         }
         else{
+          //iterate through all recipes, establish format for display
           results["recipes"].forEach(function(recipe){
             injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
             injectText += '<div id ="details-' + recipe["id"] + '"></div>';
@@ -65,6 +78,8 @@
             injectText += ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
           });
         }
+
+        //inject the string to container div, hide and then fade in
         $('#recipeList').html(injectText).hide().fadeIn("slow");
       }).fail(function(error){
         alert(error.statusText);

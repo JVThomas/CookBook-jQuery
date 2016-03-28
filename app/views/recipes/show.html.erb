@@ -40,18 +40,25 @@
 
 <script type="text/javascript" charset= "utf-8">
   $(document).ready(function(){
+    
+    //click event for submitting new comment
     $('#new_comment').on("submit",function(event){
       event.preventDefault();
       posted_comment = $(this).serialize();
+      //post request to create comment based on values in html input elements
       $.post('/comments',posted_comment).done(function(data){
         var commentUser = data["comment"]["user"]
         var commentContent = data["comment"]["content"];
         var commentId = data["comment"]["id"];
+
+        //formatiing string with html markup for later injection
         var injectText = '<div id = "comment-' + commentId + '">';
         injectText +='<h3> ' + commentUser["name"] + " Says: </h3>";
         injectText +='<h4> ' + commentContent + " </h4>";
         injectText +='<a href = "/users/' + commentUser["id"] +'/comments/'+ commentId+'/edit" class = "btn">Edit Comment</a>';
         injectText +='<a href = "#" class = "btn deleteLink" data-id = "' + commentId + '" data-user-id="' + commentUser["id"] + '">Delete Comment</a></div>';
+        
+        //add markup to div, hide recently added comment to activate fadeIn effect
         $('#commentsList').append(injectText);
         $('#commentsList div:last').hide().fadeIn("slow");
       }).fail(function(error){
@@ -59,15 +66,20 @@
       });
     });
     
+    //click event for comment delete
     $('#commentsList').on("click",'.deleteLink',function(event){
       event.preventDefault();
       var deleteUrl = '/comments/' + $(this).data("id");
+      //saved container div for later fadeout
       var parentDiv = $(this).parent();
+      
+      //used .ajax since there is no shorthand method for delete
       $.ajax({
         url: deleteUrl,
         type: "POST",
         data:{"_method": "DELETE"}
       }).done(function(data){
+        //fadeout effect for comment container
         $(parentDiv).fadeOut("slow");
       }).fail(function(error){
         alert(error.statusText);
