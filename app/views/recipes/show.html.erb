@@ -40,6 +40,7 @@
 
 <script type="text/javascript" charset= "utf-8">
   $(document).ready(function(){
+    var commentTool = new CommentFormat();
     
     //click event for submitting new comment
     $('#new_comment').on("submit",function(event){
@@ -47,18 +48,11 @@
       posted_comment = $(this).serialize();
       //post request to create comment based on values in html input elements
       $.post('/comments',posted_comment).done(function(data){
-        var commentUser = data["comment"]["user"]
-        var commentContent = data["comment"]["content"];
-        var commentId = data["comment"]["id"];
+        commentTool.setData(data);
 
-        //formatiing string with html markup for later injection
-        var injectText = '<div id = "comment-' + commentId + '">';
-        injectText +='<h3> ' + commentUser["name"] + " Says: </h3>";
-        injectText +='<h4> ' + commentContent + " </h4>";
-        injectText +='<a href = "/users/' + commentUser["id"] +'/comments/'+ commentId+'/edit" class = "btn">Edit Comment</a>';
-        injectText +='<a href = "#" class = "btn deleteLink" data-id = "' + commentId + '" data-user-id="' + commentUser["id"] + '">Delete Comment</a></div>';
-        
-        //add markup to div, hide recently added comment to activate fadeIn effect
+        //formatter at work, returns html string
+        var injectText = commentTool.commentHtml();
+
         $('#commentsList').append(injectText);
         $('#commentsList div:last').hide().fadeIn("slow");
       }).fail(function(error){
@@ -70,12 +64,14 @@
     $('#commentsList').on("click",'.deleteLink',function(event){
       event.preventDefault();
       var deleteUrl = '/comments/' + $(this).data("id");
+      
       //saved container div for later fadeout
       var parentDiv = $(this).parent();
       
       //used .ajax since there is no shorthand method for delete
       $.ajax({
         url: deleteUrl,
+        //older browser support. Should I worry about this or is it okay to use type:'DELETE'?
         type: "POST",
         data:{"_method": "DELETE"}
       }).done(function(data){
