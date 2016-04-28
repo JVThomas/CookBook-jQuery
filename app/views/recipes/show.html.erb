@@ -83,7 +83,7 @@
       });
     });
 
-    $('#commentsList').on("click", '.editLink', function(event){
+    $('#commentsList').on("click",'.editLink', function(event){
       event.preventDefault();
       var commentId = $(this).data("id");
       $.get('/users/' + $(this).data("user-id") + '/comments/' + commentId).done(function(comment){

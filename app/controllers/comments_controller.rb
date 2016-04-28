@@ -1,4 +1,3 @@
-require 'pry'
 class CommentsController < ApplicationController
   before_action :params_check, only:[:create]
   before_action :set_user, only:[:index, :show]
