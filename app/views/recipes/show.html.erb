@@ -86,7 +86,7 @@
     $('#commentsList').on("click",'.editLink', function(event){
       event.preventDefault();
       var commentId = $(this).data("id");
-      $.get('/users/' + $(this).data("user-id") + '/comments/' + commentId).done(function(comment){
+      $.get('/users/' + $(this).data("user-id") + '/comments/' + commentId + '.json').done(function(comment){
         commentTool.setData(comment);
         var injectText = commentTool.editHtml();
         $('#comment-' + comment["comment"]["id"] + ' #editDiv').html(injectText);

@@ -40,7 +40,10 @@ class CommentsController < ApplicationController
       flash[:alert] = "Comment does not belong to specified user"
       home_redirect
     end
-    render json: @comment
+    respond_to do |format|
+      format.html{render :show}
+      format.json{render json: @comment}
+    end
   end
 
   def destroy
