@@ -1,3 +1,4 @@
+require 'pry'
 class CommentsController < ApplicationController
   before_action :params_check, only:[:create]
   before_action :set_user, only:[:index, :show]
@@ -20,13 +21,18 @@ class CommentsController < ApplicationController
   end
 
   def update
-    authorize(@comment)
-    @comment.update(comment_params)
-    if @comment.valid?
-      flash[:notice] = "Comment successfully updated"
-      redirect_to recipe_path(@comment.recipe)
+    if params[:comment_content]
+      @comment.update(content: params[:comment_content])
+      render json: @comment
     else
-      render :edit
+      authorize(@comment)
+      @comment.update(comment_params)
+      if @comment.valid?
+        flash[:notice] = "Comment successfully updated"
+        redirect_to recipe_path(@comment.recipe)
+      else
+        render :edit
+      end
     end
   end
 
@@ -35,6 +41,7 @@ class CommentsController < ApplicationController
       flash[:alert] = "Comment does not belong to specified user"
       home_redirect
     end
+    render json: @comment
   end
 
   def destroy

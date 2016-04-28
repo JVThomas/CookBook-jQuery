@@ -28,4 +28,6 @@ function RecipeFormat(){
     var injectText ='<p>'+ content+'</p>';
     return injectText;
   }
+
+
 }

@@ -12,12 +12,16 @@ class RecipesController < ApplicationController
   end
   
   def index
+    #condition for user/recipe index
     if !!@user
       @recipes = Recipe.where(user_id:@user.id)
+    #conditions for recipes index
     else 
+      # condition for recipes index based on search params
       if !!params[:ingredient_name]
         @recipes = Recipe.search_by_ingredient(params[:ingredient_name])
-        render json: @recipes, status:201
+        render json: @recipes
+      # condition for initial load of recipes index
       else 
         @recipes = Recipe.all
       end
@@ -48,7 +52,7 @@ class RecipesController < ApplicationController
     else
       respond_to do |format|
         format.html{render :show}
-        format.json{render json: @recipe, status:201}
+        format.json{render json: @recipe}
       end
     end
   end

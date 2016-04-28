@@ -22,9 +22,11 @@
   <% @recipe.comments.each do |comment| %>
   <div id = "comment-<%=comment.id%>">
     <h3> <%= comment.user_name %> Says: </h3>
-    <h4> <%= comment.content %> </h4>
+    <div id = "editDiv">
+      <h4> <%= comment.content %> </h4>
+    </div><br>
     <%if comment.user == current_user%>
-      <%= link_to "Edit Comment", edit_user_comment_path(comment.user, comment), class: "btn"%>
+      <a href = "#" class = "btn editLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Edit Comment</a>
       <a href = "#" class = "btn deleteLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Delete Comment</a>
     <%end%>
   </div>
@@ -68,7 +70,6 @@
       //saved container div for later fadeout
       var parentDiv = $(this).parent();
       
-      //used .ajax since there is no shorthand method for delete
       $.ajax({
         url: deleteUrl,
         //older browser support. Should I worry about this or is it okay to use type:'DELETE'?
@@ -82,6 +83,30 @@
       });
     });
 
+    $('#commentsList').on("click", '.editLink', function(event){
+      event.preventDefault();
+      var commentId = $(this).data("id");
+      $.get('/users/' + $(this).data("user-id") + '/comments/' + commentId).done(function(comment){
+        commentTool.setData(comment);
+        var injectText = commentTool.editHtml();
+        $('#comment-' + comment["comment"]["id"] + ' #editDiv').html(injectText);
+      });
+    });
+
+    $('#commentsList').on("submit", '.editComment', function(event){
+      event.preventDefault();
+      var form = $(this);
+      var commentId = $(this).data("id");
+      var commentContent = $(this).find('#comment_content').val()
+      $.ajax({
+        url: '/comments/' + commentId,
+        type:'patch', 
+        data: {comment_content: commentContent}
+      }).done(function(comment){
+        form.parent().append('<h4>' +comment["comment"]["content"] + '</h4>');
+        form.remove();
+      });
+    });
   });
 </script>
 
