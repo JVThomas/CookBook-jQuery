@@ -16,25 +16,50 @@
   <%= f.text_area :content, rows: 8, cols: 50%> <br>
 
   <h3>Add Ingredient</h3>
-  <%=f.fields_for :recipe_ingredients do |i| %>
-    
-    <%if !@recipe.errors[:ingredient_name].blank?%>
-      <div class = "field_with_errors">
-    <%else%>
-      <div>
-    <%end%>
-        <%=i.label "Ingredient name:" %> 
-        <%=i.text_field :ingredient_name %> <br><br>
-      </div>
 
-    <%if !@recipe.errors[:quantity].blank?%>
-      <div class = "field_with_errors">
-    <%else%>
-      <div>
-    <%end%>
-        <%=i.label "Quantity:"%> 
-        <%=i.number_field :quantity%><br><br>
+  <div id = "ingredients_container">
+    
+    <%=f.fields_for :recipe_ingredients do |i| %>
+      <div class = "recipe_ingredient">
+      
+        <%if !@recipe.errors[:ingredient_name].blank?%>
+          <div class = "field_with_errors">
+        <%else%>
+          <div>
+        <%end%>
+            <%=i.label "Ingredient name:" %> 
+            <%=i.text_field :ingredient_name %> <br><br>
+          </div>
+
+        <%if !@recipe.errors[:quantity].blank?%>
+          <div class = "field_with_errors">
+        <%else%>
+          <div>
+        <%end%>
+            <%=i.label "Quantity:"%> 
+            <%=i.number_field :quantity%><br><br>
+          </div>
+
       </div>
-  <%end%>
+      <br>
+    <%end%>
+
+  </div>
+
   <%=f.submit "Save Recipe"%>
 <% end%>
+
+<button id = "add-ingredient" data-ingredients = "<%=@recipe.recipe_ingredients.length%>">Add ingredient</button>
+
+ <script type="text/javascript" charset = 'utf-8'>
+  $(document).ready(function(){
+    $("#add-ingredient").on("click",function(event){
+      event.preventDefault();
+      var newIndex = $("#add-ingredient").data("ingredients");
+      var formatter = new RecipeFormat();
+      $('#ingredients_container').append(formatter.addNewIngredient(newIndex)).append('<br>');
+      $("#add-ingredient").data("ingredients", newIndex + 1);
+    });
+  });
+</script>
+

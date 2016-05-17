@@ -29,5 +29,14 @@ function RecipeFormat(){
     return injectText;
   }
 
-
+  RecipeFormat.prototype.addNewIngredient = function(index){
+    var injectText = '<div class = "recipe_ingredient">';
+    injectText += '<div><label for="recipe_recipe_ingredients_attributes_' + index + '_Ingredient name:">Ingredient name:</label>';
+    injectText += '<input type="text" name="recipe[recipe_ingredients_attributes]['+ index +'][ingredient_name]" id="recipe_recipe_ingredients_attributes_'+ index +'_ingredient_name">';
+    injectText += '<br><br></div>';
+    injectText += '<div><label for="recipe_recipe_ingredients_attributes_'+ index +'_Quantity:">Quantity:</label>';
+    injectText += '<input type="number" name="recipe[recipe_ingredients_attributes]['+ index + '][quantity]" id="recipe_recipe_ingredients_attributes_0_quantity">';
+    injectText +- '<br><br></div>';
+    return injectText;
+  }
 }
