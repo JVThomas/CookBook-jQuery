@@ -1,7 +1,6 @@
 <h1><%= display_header(@user) %></h1>
-
+<div id = "indexGreeting">
 <%if !@user%>
-  <div>
     <h2>Want to search all recipes by ingredient? Enter the ingredient name below</h2>
     <%=form_tag recipes_path, method: :get, id: "search" do%>
       <%=label_tag :ingredient_name%>
@@ -11,15 +10,19 @@
     <h3><%= link_to "...or create a new recipe!", new_recipe_path%></h3><br>
   </div>
 <%else%>
+
   <h3><%= link_to "Create a new recipe!", new_recipe_path%></h3><br>
+  </div>
 <%end%>
 
 <div id = "recipeList">
   <%@recipes.each do |recipe| %>
-    <h3><%=display_index_links(recipe)%></h3>
-    <div id = "details-<%=recipe.id%>"></div>
-    <a href="#" class = "btn ingredientsLink" data-id="<%=recipe.id%>">Show Ingredients</a>
-    <a href="#" class = "btn contentLink" data-id="<%=recipe.id%>">Show Instructions</a>
+    <div class = "recipeItem">
+      <h3><%=display_index_links(recipe)%></h3>
+      <div id = "details-<%=recipe.id%>"></div>
+      <a href="#" class = "btn ingredientsLink" data-id="<%=recipe.id%>">Show Ingredients</a>
+      <a href="#" class = "btn contentLink" data-id="<%=recipe.id%>">Show Instructions</a>
+    </div>
   <%end%>
 </div>
 

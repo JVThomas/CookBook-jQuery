@@ -17,6 +17,7 @@
  /*///////////////////LAYOUT////////////////////////////*/
 html {
   box-sizing: border-box;
+  height: 100%
 }
 
 *, *:before, *:after {
@@ -25,12 +26,16 @@ html {
 
 body{
   margin:0;
+  background-color: rgb(245, 245, 245); 
+  height: 100%;
 }
 
 .container {
   margin: 0 auto;
   padding: 3% 5%;
   max-width: 1000px;
+  background-color: white;
+  min-height: 100%;
 }
 
 .row::before,
@@ -42,7 +47,8 @@ body{
 
 .navbar{
   height: 50px;
-  background-color: rgb(197, 197, 197);
+  background-color: orange;
+  z-index: 1000;
 }
 
 .one,
@@ -60,7 +66,7 @@ body{
 }
 .navbar a{
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 .navbar-logo{
@@ -124,6 +130,10 @@ body{
   background-color: rgb(238, 214, 214);
 }
 
+.commentItem{
+  margin: 2em 2em;
+}
+
 form{
   margin:0;
   width:50%;
@@ -134,6 +144,16 @@ h1{
   text-align: center;
 }
 
+#indexGreeting{
+  text-align: center;
+}
+
+#indexGreeting form{
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
 ul{
   padding:0;
 }
@@ -141,6 +161,37 @@ ul{
 li{
   list-style-type: none;
   text-align: center;  
+}
+
+.recipeItem{
+  padding: 1em 1em;
+}
+
+.recipeItem h3{
+  margin-top: 0;
+}
+
+#recipeList div{
+  background-color: rgb(245, 245, 245);
+  margin: 2em 2em;
+}
+
+.recipeDetails, #userDetails, #recipeForm, .commentForm, .commentItem{
+  background-color: rgb(245, 245, 245);
+  padding: 2em 2em;
+}
+
+#userContainer{
+  padding: 2em 2em;
+}
+
+#userContainer h1{
+  text-align: left; 
+}
+
+.welcomeContainer{
+  padding-top: 3em;
+  text-align: center;
 }
 
 

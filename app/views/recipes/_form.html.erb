@@ -1,55 +1,55 @@
 <h1>Recipe Form</h1>
 
 <%= render partial: 'layouts/errors', locals:{obj: @recipe}%>
+<div id = "recipeForm">
+  <%= form_for(@recipe) do |f|%>
+    <%= f.label :name %> <br>
+    <%= f.text_field :name%><br>
 
-<%= form_for(@recipe) do |f|%>
-  <%= f.label :name %> <br>
-  <%= f.text_field :name%><br>
 
-
-  <%@recipe.recipe_ingredients.each do |recipe_ingredient|%>
-    <h5><%=recipe_ingredient.ingredient_name %>       <%="Quantity: " + recipe_ingredient.quantity.to_s if !recipe_ingredient.ingredient_name.blank?%></h5>
-  <%end%>
-
-  <h3>Instructions:</h3>
-  <%= f.label :content %> <br>
-  <%= f.text_area :content, rows: 8, cols: 50%> <br>
-
-  <h3>Add Ingredient</h3>
-
-  <div id = "ingredients_container">
-    
-    <%=f.fields_for :recipe_ingredients do |i| %>
-      <div class = "recipe_ingredient">
-      
-        <%if !@recipe.errors[:ingredient_name].blank?%>
-          <div class = "field_with_errors">
-        <%else%>
-          <div>
-        <%end%>
-            <%=i.label "Ingredient name:" %> 
-            <%=i.text_field :ingredient_name %> <br><br>
-          </div>
-
-        <%if !@recipe.errors[:quantity].blank?%>
-          <div class = "field_with_errors">
-        <%else%>
-          <div>
-        <%end%>
-            <%=i.label "Quantity:"%> 
-            <%=i.number_field :quantity%><br><br>
-          </div>
-
-      </div>
-      <br>
+    <%@recipe.recipe_ingredients.each do |recipe_ingredient|%>
+      <h5><%=recipe_ingredient.ingredient_name %>       <%="Quantity: " + recipe_ingredient.quantity.to_s if !recipe_ingredient.ingredient_name.blank?%></h5>
     <%end%>
 
-  </div>
+    <h3>Instructions:</h3>
+    <%= f.label :content %> <br>
+    <%= f.text_area :content, rows: 8, cols: 50%> <br>
 
-  <%=f.submit "Save Recipe"%>
-<% end%>
+    <h3>Add Ingredient</h3>
 
-<button id = "add-ingredient" data-ingredients = "<%=@recipe.recipe_ingredients.length%>">Add ingredient</button>
+    <div id = "ingredients_container">
+      
+      <%=f.fields_for :recipe_ingredients do |i| %>
+        <div class = "recipe_ingredient">
+        
+          <%if !@recipe.errors[:ingredient_name].blank?%>
+            <div class = "field_with_errors">
+          <%else%>
+            <div>
+          <%end%>
+              <%=i.label "Ingredient name:" %> 
+              <%=i.text_field :ingredient_name %> <br><br>
+            </div>
+
+          <%if !@recipe.errors[:quantity].blank?%>
+            <div class = "field_with_errors">
+          <%else%>
+            <div>
+          <%end%>
+              <%=i.label "Quantity:"%> 
+              <%=i.number_field :quantity%><br><br>
+            </div>
+
+        </div>
+        <br>
+      <%end%>
+
+    </div>
+
+    <%=f.submit "Save Recipe"%>
+    <button id = "add-ingredient" data-ingredients = "<%=@recipe.recipe_ingredients.length%>">Add ingredient</button>
+  <% end%>
+</div>
 
  <script type="text/javascript" charset = 'utf-8'>
   $(document).ready(function(){

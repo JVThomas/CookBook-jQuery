@@ -1,5 +1,5 @@
-<div>
-  <h1><%= @recipe.name%></h1>
+<h1><%= @recipe.name%></h1>
+<div class = "recipeDetails">
   <h3>By: <%=link_to "#{@recipe.user_name}", user_path(@recipe.user)%></h3>
 
   <h3>Instructions:</h3>
@@ -20,16 +20,18 @@
 <h1>Comments</h1>
 <div id = "commentsList">
   <% @recipe.comments.each do |comment| %>
-  <div id = "comment-<%=comment.id%>">
-    <h3> <%= comment.user_name %> Says: </h3>
-    <div id = "editDiv">
-      <h4> <%= comment.content %> </h4>
-    </div><br>
-    <%if comment.user == current_user%>
-      <a href = "#" class = "btn editLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Edit Comment</a>
-      <a href = "#" class = "btn deleteLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Delete Comment</a>
-    <%end%>
-  </div>
+    <div class = "commentItem">
+      <div id = "comment-<%=comment.id%>">
+        <h3> <%= comment.user_name %> Says: </h3>
+        <div id = "editDiv">
+          <h4> <%= comment.content %> </h4>
+        </div><br>
+        <%if comment.user == current_user%>
+          <a href = "#" class = "btn editLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Edit Comment</a>
+          <a href = "#" class = "btn deleteLink" data-id="<%=comment.id%>" data-user-id="<%=comment.user.id%>">Delete Comment</a>
+        <%end%>
+      </div>
+    </div>
   <%end%>
 </div>
 

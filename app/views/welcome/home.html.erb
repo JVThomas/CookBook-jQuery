@@ -1,4 +1,8 @@
-<h1>Welcome to CookBook!</h1>
+<div class = "welcomeContainer">
+  <h1>Welcome to CookBook!</h1>
 
-<p><%=link_to "Sign Up", new_user_registration_path%> or <%= link_to "Log In", new_user_session_path%> </p>
-<p><%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %></p>
+  <p> CookBook is a simple recipe manager that allows users to submit and view recipes and comments on the site. Users can also search for recipes based on ingredient, should they choose to do so.</p>
+
+  <p><%=link_to "Sign Up", new_user_registration_path%> or <%= link_to "Log In", new_user_session_path%> </p>
+  <p><%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %></p>
+</div>

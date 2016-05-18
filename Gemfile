@@ -28,6 +28,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'pundit'
 gem 'active_model_serializers'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -38,6 +39,7 @@ gem 'active_model_serializers'
 # gem 'capistrano-rails', group: :development
 
 group :test, :development do
+  gem 'dotenv-rails'
   gem "rspec-rails"
   gem "capybara"
   gem "launchy"

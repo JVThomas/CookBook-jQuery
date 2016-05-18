@@ -1,6 +1,8 @@
-<div>
+<div id = "userContainer">
   <h1><%=@user.name%></h1>
-  <h3><%=link_to "View Recipes", user_recipes_path(@user)%></h3>
-  <h3><%=link_to "Create a recipe", new_user_recipe_path(current_user) if current_user == @user%></h3>
- <h3><%=link_to "View Comments", user_comments_path(@user)%></h3>
+  <div id = "userDetails">
+    <h3><%=link_to "View Recipes", user_recipes_path(@user)%></h3>
+    <h3><%=link_to "Create a recipe", new_user_recipe_path(current_user) if current_user == @user%></h3>
+   <h3><%=link_to "View Comments", user_comments_path(@user)%></h3>
+ </div>
 </div>

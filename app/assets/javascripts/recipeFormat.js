@@ -15,10 +15,11 @@ function RecipeFormat(){
     }
     else{
       recipes.forEach(function(recipe){
+        injectText += '<div class = "recipeItem">'
         injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
         injectText += '<div id ="details-' + recipe["id"] + '"></div>';
         injectText += '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>';
-        injectText += ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a>';
+        injectText += ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a></div>';
       });
     }
     return injectText;
