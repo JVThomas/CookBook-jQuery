@@ -177,6 +177,7 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (1.6.4)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack_session_access (0.1.1)
@@ -317,6 +318,7 @@ DEPENDENCIES
   pg
   pry
   pundit
+  rack-cors
   rack_session_access
   rails (= 4.2.5)
   rails_12factor
