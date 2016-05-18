@@ -41,15 +41,6 @@ gem 'active_model_serializers'
 group :test, :development do
   gem 'dotenv-rails'
   gem "rspec-rails"
-  gem "capybara"
-  gem "launchy"
-  gem "rack_session_access"
-  gem "selenium-webdriver"
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem "factory_girl_rails"
-  gem "simplecov"
-  gem "database_cleaner"
   gem "pry"
   gem "guard-rspec", require: false
   gem "thin"
@@ -58,10 +49,5 @@ end
 group :production do
   gem "google-analytics-rails"
   gem "rails_12factor"
-  gem 'rack-cors'
+  gem 'rack-cors', :require => 'rack/cors'
 end
-
-gem "bootstrap-sass", "~> 3.1.1"
-gem "airbrake"
-gem "faker"
-gem "friendly_id"
