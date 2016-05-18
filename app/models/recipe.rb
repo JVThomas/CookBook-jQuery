@@ -35,7 +35,7 @@ class Recipe < ActiveRecord::Base
   end
 
   def self.search_by_ingredient(name)
-    joins(:ingredients).where(ingredients:{name: name.downcase.titlecase}).group(:recipe_id)
+    joins(:ingredients).where(ingredients:{name: name.downcase.titlecase}).group('recipes.id')
   end
 
 end
