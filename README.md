@@ -6,3 +6,5 @@ Simply download the app, bundle install, run rake db:migrate, and finally rails 
 
 ### Additional details
 App was made via Ruby and utilized Devise with OAuth-Facebook for Facebook authentication
+
+A demo of the app can be found here: http://cookbook-jquery.herokuapp.com/
