@@ -16,10 +16,10 @@ function RecipeFormat(){
     else{
       recipes.forEach(function(recipe){
         injectText += '<div class = "recipeItem">'
-        injectText += '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>';
-        injectText += '<div id ="details-' + recipe["id"] + '"></div>';
-        injectText += '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>';
-        injectText += ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a></div>';
+                    + '<h3><a href="/recipes/' + recipe["id"]+'">'+ recipe["name"] + '</a></h3>'
+                    + '<div id ="details-' + recipe["id"] + '"></div>'
+                    + '<a href="#" class = "btn ingredientsLink" data-id="' + recipe["id"] + '">Show Ingredients</a>'
+                    + ' <a href="#" class = "btn contentLink" data-id="' + recipe["id"] + '">Show Instructions</a></div>';
       });
     }
     return injectText;
@@ -31,13 +31,13 @@ function RecipeFormat(){
   }
 
   RecipeFormat.prototype.addNewIngredient = function(index){
-    var injectText = '<div class = "recipe_ingredient">';
-    injectText += '<div><label for="recipe_recipe_ingredients_attributes_' + index + '_Ingredient name:">Ingredient name:</label>';
-    injectText += '<input type="text" name="recipe[recipe_ingredients_attributes]['+ index +'][ingredient_name]" id="recipe_recipe_ingredients_attributes_'+ index +'_ingredient_name">';
-    injectText += '<br><br></div>';
-    injectText += '<div><label for="recipe_recipe_ingredients_attributes_'+ index +'_Quantity:">Quantity:</label>';
-    injectText += '<input type="number" name="recipe[recipe_ingredients_attributes]['+ index + '][quantity]" id="recipe_recipe_ingredients_attributes_0_quantity">';
-    injectText +- '<br><br></div>';
+    var injectText  = '<div class = "recipe_ingredient">'
+                    + '<div><label for="recipe_recipe_ingredients_attributes_' + index + '_Ingredient name:">Ingredient name:</label>'
+                    + '<input type="text" name="recipe[recipe_ingredients_attributes]['+ index +'][ingredient_name]" id="recipe_recipe_ingredients_attributes_'+ index +'_ingredient_name">'
+                    + '<br><br></div>'
+                    + '<div><label for="recipe_recipe_ingredients_attributes_'+ index +'_Quantity:">Quantity:</label>'
+                    + '<input type="number" name="recipe[recipe_ingredients_attributes]['+ index + '][quantity]" id="recipe_recipe_ingredients_attributes_0_quantity">'
+                    + '<br><br></div>';
     return injectText;
   }
 }

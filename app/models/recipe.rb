@@ -16,7 +16,7 @@ class Recipe < ActiveRecord::Base
         if self.recipe_ingredients[i.to_i].nil?
           @recipe_ingredient = self.recipe_ingredients.build(quantity: attribute[:quantity], ingredient_id: @ingredient.id)
         else
-          self.recipe_ingredients[i.to_i].update(ingredient_id: @ingredient.id)
+          self.recipe_ingredients[i.to_i].update(ingredient_id: @ingredient.id, quantity: attribute[:quantity])
         end
       end
     end

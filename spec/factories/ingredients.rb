@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :ingredient do
-    name "MyString"
+    name "ingredient"
+    id 1
   end
 end
